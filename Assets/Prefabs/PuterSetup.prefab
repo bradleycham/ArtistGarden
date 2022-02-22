@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7705213491535058084}
   - component: {fileID: 572228554258806378}
   - component: {fileID: 274569241843800108}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Screen2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 3731888201280555480}
   - component: {fileID: 2927846354046898746}
   - component: {fileID: 4678171845193168653}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 3651402344776507730}
   - component: {fileID: 3065361634346176579}
   - component: {fileID: 771801003107854553}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Screen1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -333,7 +333,7 @@ GameObject:
   - component: {fileID: 4304536036123672631}
   - component: {fileID: 4130665787087687385}
   - component: {fileID: 3466675199147810869}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Puter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -428,7 +428,7 @@ GameObject:
   - component: {fileID: 6609989034978792055}
   - component: {fileID: 3591267278844033046}
   - component: {fileID: 1184621964670912501}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Keyboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
