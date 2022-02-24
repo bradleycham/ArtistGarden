@@ -15,6 +15,7 @@ public class ArtistScript : MonoBehaviour
     public float SanityMeter;
 
     public Renderer engineBodyRenderer;
+    //public Material plant;
     //public Material artistStartColor;
     public Material greenArtist;
     public Material brownArtist;
@@ -22,6 +23,7 @@ public class ArtistScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        HydrationMeterMax = HydrationMeter;
         dehydrationPerSecond = Random.Range(0.5f, 1f);
 
         //StartCoroutine(ChangeEngineColour());

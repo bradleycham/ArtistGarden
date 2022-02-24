@@ -41,10 +41,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.8
-  m_Height: 1
+  m_Radius: 0.93669236
+  m_Height: 2.7871854
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.5935944, z: -0.13669232}
 --- !u!1 &2463404036797870037
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,6 +150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1924677559252964346}
+  - component: {fileID: 3608548711470237684}
   m_Layer: 0
   m_Name: WateringCan
   m_TagString: Untagged
@@ -175,6 +176,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -5.402, y: 0, z: 0}
+--- !u!114 &3608548711470237684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4677220600475301219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9241c2073e58735498f7235bee26df5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PS: {fileID: 7286990358296315064}
+  col: {fileID: 7650753792487795086}
 --- !u!1 &6595157422447563536
 GameObject:
   m_ObjectHideFlags: 0

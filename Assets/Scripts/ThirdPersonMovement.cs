@@ -15,6 +15,8 @@ public class ThirdPersonMovement : MonoBehaviour
     public float turnSmoothTime = 0.1f; // base speed
     float turnSmoothVelocity;
 
+    Vector3 gravity = Vector3.zero;
+
     // Update is called once per frame
     void Update()
     {
@@ -37,6 +39,16 @@ public class ThirdPersonMovement : MonoBehaviour
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
             controller.Move(moveDirection.normalized * speed * Time.deltaTime);
+        }
+
+        if(!controller.isGrounded)
+        {
+            gravity += Physics.gravity * Time.deltaTime;
+            controller.Move(gravity*Time.deltaTime);
+        }
+        else
+        {
+
         }
     }
 }
