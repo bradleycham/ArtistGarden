@@ -12,7 +12,7 @@ public class ThirdPersonMovement : MonoBehaviour
     public float walkSpeed = 6f;
     public float sprintSpeed = 9f;
 
-    public float turnSmoothTime = 0.1f;
+    public float turnSmoothTime = 0.1f; // base speed
     float turnSmoothVelocity;
 
     // Update is called once per frame
