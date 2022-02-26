@@ -10,7 +10,6 @@ public enum Tools
 }
 public class ToolManager : MonoBehaviour
 {
-
     public Transform handSpot;
 
     WateringCan can;
@@ -157,6 +156,8 @@ public class ToolManager : MonoBehaviour
             }
         }
     }
+
+    
 }
 
 

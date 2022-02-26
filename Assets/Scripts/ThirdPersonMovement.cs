@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
+    public int artCollected;
 
     public CharacterController controller;
     public Transform cam;
@@ -49,6 +50,15 @@ public class ThirdPersonMovement : MonoBehaviour
         else
         {
 
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.CompareTag("Art"))
+        {
+            Destroy(collision.gameObject);
+            artCollected++;
+            Debug.Log(artCollected);
         }
     }
 }
