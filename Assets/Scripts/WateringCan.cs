@@ -6,7 +6,7 @@ public class WateringCan : MonoBehaviour
 {
     public ParticleSystem PS;
     public CapsuleCollider col;
-    bool water;
+    public bool water;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,16 +16,19 @@ public class WateringCan : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            water = !water;
-            col.enabled = water;
-            if (water)
-                PS.Play();
-            else
-                PS.Stop();
-            Debug.Log("Click: " + water);
-        }
+        
+    }
 
+    public void WaterOnOff()
+    {
+
+        water = !water;
+        col.enabled = water;
+        if (water)
+            PS.Play();
+        else
+            PS.Stop();
+        Debug.Log("Click: " + water);
+        
     }
 }

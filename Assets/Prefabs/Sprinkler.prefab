@@ -9,9 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 675238315209566493}
+  - component: {fileID: -1295359986158109228}
+  - component: {fileID: 5245666833113470966}
+  - component: {fileID: 6169019194187986736}
   m_Layer: 0
   m_Name: Sprinkler
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32,6 +35,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &-1295359986158109228
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675238315209566494}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!114 &5245666833113470966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675238315209566494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a07fcb4a4b95bac45a29e61b9ddfa9f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprinkler: {fileID: 675238316438076561}
+  startLoc: {fileID: 675238315314025603}
+  endLoc: {fileID: 675238315366970384}
+  PS: {fileID: 675238315733244998}
+  col: {fileID: 6169019194187986736}
+  duration: 2
+--- !u!135 &6169019194187986736
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675238315209566494}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0.94, z: 0}
 --- !u!1 &675238315314025852
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +426,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -5143,7 +5193,6 @@ GameObject:
   - component: {fileID: 675238316438076561}
   - component: {fileID: 675238316438076566}
   - component: {fileID: 675238316438076567}
-  - component: {fileID: 675238316438076560}
   m_Layer: 0
   m_Name: SprinklerHead
   m_TagString: Untagged
@@ -5215,18 +5264,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &675238316438076560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 675238316438076562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a07fcb4a4b95bac45a29e61b9ddfa9f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startLoc: {fileID: 675238315314025603}
-  endLoc: {fileID: 675238315366970384}
-  duration: 2
