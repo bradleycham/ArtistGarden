@@ -10,19 +10,26 @@ public class ArtistScript : MonoBehaviour
 
     public float HydrationMeter = 30f; 
     public float HydrationMeterMax = 30f; 
-    float dehydrationPerSecond;
+    public float dehydrationPerSecond;
     public float hydrationPerSecond = 5;
-    bool watering = false;
+    public bool watering = false;
 
     public float fadeOutTime = 2f;
     public float BurnoutMeter;
     public float SanityMeter;
 
     public Renderer artistRenderer;
+    public Renderer potRenderer;
     public Material greenArtist;
     public Material brownArtist;
+
+    bool dead;
+    public ParticleSystem dustPS;
+    public Material plantFadeOut;
+    public Material potFadeOut;
     public Material invisible;
 
+    public GameObject progressBar;
     public ProgressBar bar;
     public float barProgress;
     public float barMax = 100f;
@@ -41,19 +48,25 @@ public class ArtistScript : MonoBehaviour
 
     void ManageHydration()
     {
-        if (HydrationMeter > HydrationMeterMax)
-            HydrationMeter = HydrationMeterMax;
-        if (!watering)
+        if (HydrationMeter > HydrationMeterMax && !dead)
+        { 
+            HydrationMeter = HydrationMeterMax; 
+        }
+        if (!watering && !dead)
         {
             HydrationMeter -= dehydrationPerSecond * Time.deltaTime;
         }
 
-        if (HydrationMeter < 0f)
+        if (HydrationMeter <= 0f && !dead)
+        {
+            dead = true;
             StartCoroutine(FadeOutOfExistance());
-        else
+            Destroy(progressBar);
+        }
+        else if(!dead)
             artistRenderer.material.color = Color.Lerp(greenArtist.color, brownArtist.color, 1f - (HydrationMeter / HydrationMeterMax));
 
-
+        watering = false;
     }
     // Update is called once per frame
     void Update()
@@ -64,17 +77,19 @@ public class ArtistScript : MonoBehaviour
 
     void ManageProgress()
     {
-        barProgress += Time.deltaTime * progPerSecond;
-        if(barProgress >= barMax)
+        if (!dead)
         {
-            barProgress = 0f;
-            GameObject newArt = (GameObject)Instantiate(art, artSpawn.position, artSpawn.rotation);
-            Vector3 dir = player.position - transform.position;
-            dir = dir.normalized;
-            newArt.GetComponent<Rigidbody>().AddForce(dir * 100f);
+            barProgress += Time.deltaTime * progPerSecond;
+            if (barProgress >= barMax)
+            {
+                barProgress = 0f;
+                GameObject newArt = (GameObject)Instantiate(art, artSpawn.position, artSpawn.rotation);
+                Vector3 dir = player.position - transform.position;
+                dir = dir.normalized;
+                newArt.GetComponent<Rigidbody>().AddForce(dir * 100f);
+            }
+            bar.UpdateProgress(barProgress / barMax);
         }
-        bar.UpdateProgress(barProgress / barMax);
-        
     }
 
     private void OnTriggerStay(Collider other)
@@ -99,12 +114,18 @@ public class ArtistScript : MonoBehaviour
     IEnumerator FadeOutOfExistance()
     {
         float timer = 0f;
-        Material tempMat = artistRenderer.material;
-        
-        while(timer <= fadeOutTime)
+
+        artistRenderer.material = plantFadeOut;
+        potRenderer.material = potFadeOut;
+        Material tempPlantMat = artistRenderer.material;
+        Material tempPotMat = potRenderer.material;
+        dustPS.Play();
+        while (timer <= fadeOutTime)
         {
             timer += Time.deltaTime;
-            artistRenderer.material.color = Color.Lerp(tempMat.color, invisible.color, 1f - (timer/fadeOutTime));
+            artistRenderer.material.color = Color.Lerp(tempPlantMat.color, invisible.color, (timer / fadeOutTime));
+            potRenderer.material.color = Color.Lerp(tempPotMat.color, invisible.color, (timer / fadeOutTime));
+
             yield return new WaitForSeconds(Time.deltaTime);
         }
         Destroy(this.gameObject);
