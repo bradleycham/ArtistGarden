@@ -93,7 +93,7 @@ public class ToolManager : MonoBehaviour
         {
             can.WaterOnOff();
         }
-        else if (currentTool == Tools.Sprinkler)
+        else if (currentTool == Tools.Sprinkler && inInventory[(int)Tools.Sprinkler])
         {
             tools[(int)Tools.Sprinkler].GetComponent<Rigidbody>().isKinematic = false;
             tools[(int)Tools.Sprinkler].parent = null;

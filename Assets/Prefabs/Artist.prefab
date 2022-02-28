@@ -88,14 +88,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   art: {fileID: 4926793443661643681, guid: 132cde11f66008e4882b727bb55830a6, type: 3}
   artSpawn: {fileID: 1811362375278911358}
-  HydrationMeter: 30
-  HydrationMeterMax: 30
+  HydrationMeter: 10
+  HydrationMeterMax: 10
   hydrationPerSecond: 5
+  fadeOutTime: 2
   BurnoutMeter: 0
   SanityMeter: 0
   artistRenderer: {fileID: 3782570044050229078}
   greenArtist: {fileID: 2100000, guid: 6c6843741974ef6498db59abf75cad94, type: 2}
   brownArtist: {fileID: 2100000, guid: 8c28d8987ec997c4f82723a41fece349, type: 2}
+  invisible: {fileID: 2100000, guid: e0ef34fda6dfd6d4c97eda91a3957c28, type: 2}
   bar: {fileID: 5572299332591646033}
   barProgress: 0
   barMax: 100

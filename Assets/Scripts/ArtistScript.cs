@@ -8,18 +8,20 @@ public class ArtistScript : MonoBehaviour
     public Object art;
     public Transform artSpawn;
 
-    public float HydrationMeter; 
-    public float HydrationMeterMax; 
+    public float HydrationMeter = 30f; 
+    public float HydrationMeterMax = 30f; 
     float dehydrationPerSecond;
-    public float hydrationPerSecond;
+    public float hydrationPerSecond = 5;
     bool watering = false;
 
+    public float fadeOutTime = 2f;
     public float BurnoutMeter;
     public float SanityMeter;
 
     public Renderer artistRenderer;
     public Material greenArtist;
     public Material brownArtist;
+    public Material invisible;
 
     public ProgressBar bar;
     public float barProgress;
@@ -46,9 +48,12 @@ public class ArtistScript : MonoBehaviour
             HydrationMeter -= dehydrationPerSecond * Time.deltaTime;
         }
 
-        artistRenderer.material.color = Color.Lerp(greenArtist.color, brownArtist.color, 1f - (HydrationMeter / HydrationMeterMax));
         if (HydrationMeter < 0f)
-            Destroy(this.gameObject);
+            StartCoroutine(FadeOutOfExistance());
+        else
+            artistRenderer.material.color = Color.Lerp(greenArtist.color, brownArtist.color, 1f - (HydrationMeter / HydrationMeterMax));
+
+
     }
     // Update is called once per frame
     void Update()
@@ -90,4 +95,19 @@ public class ArtistScript : MonoBehaviour
             watering = false;
         }
     }
+
+    IEnumerator FadeOutOfExistance()
+    {
+        float timer = 0f;
+        Material tempMat = artistRenderer.material;
+        
+        while(timer <= fadeOutTime)
+        {
+            timer += Time.deltaTime;
+            artistRenderer.material.color = Color.Lerp(tempMat.color, invisible.color, 1f - (timer/fadeOutTime));
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        Destroy(this.gameObject);
+    }
+
 }
