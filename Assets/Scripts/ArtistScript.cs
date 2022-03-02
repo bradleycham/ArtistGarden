@@ -18,10 +18,24 @@ public class ArtistScript : MonoBehaviour
     public float BurnoutMeter;
     public float SanityMeter;
 
-    public Renderer artistRenderer;
+    public Renderer stemRenderer;
+    public Renderer leave01;
+    public Renderer leave02;
+    public Renderer leave03;
+    public Renderer leave04;
+
     public Renderer potRenderer;
     public Material greenArtist;
     public Material brownArtist;
+
+    public Transform l1start;
+    public Transform l2start;
+    public Transform l3start;
+    public Transform l4start;
+    public Transform l1end;
+    public Transform l2end;
+    public Transform l3end;
+    public Transform l4end;
 
     bool dead;
     public ParticleSystem dustPS;
@@ -64,7 +78,26 @@ public class ArtistScript : MonoBehaviour
             Destroy(progressBar);
         }
         else if(!dead)
-            artistRenderer.material.color = Color.Lerp(greenArtist.color, brownArtist.color, 1f - (HydrationMeter / HydrationMeterMax));
+        {
+            float timeThing = 1f - (HydrationMeter / HydrationMeterMax);
+            Color wiltColor = Color.Lerp(greenArtist.color, brownArtist.color, timeThing);
+            stemRenderer.material.color = wiltColor;
+            leave01.material.color = wiltColor;
+            leave02.material.color = wiltColor;
+            leave03.material.color = wiltColor;
+            leave04.material.color = wiltColor;
+
+            Quaternion l1 = Quaternion.Lerp(l1start.rotation, l1end.rotation, timeThing);
+            Quaternion l2 = Quaternion.Lerp(l1start.rotation, l1end.rotation, timeThing);
+            Quaternion l3 = Quaternion.Lerp(l1start.rotation, l1end.rotation, timeThing);
+            Quaternion l4 = Quaternion.Lerp(l1start.rotation, l1end.rotation, timeThing);
+
+            leave01.transform.rotation = l1;
+            leave02.transform.rotation = l2;
+            leave03.transform.rotation = l3;
+            leave04.transform.rotation = l4;
+
+        }
 
         watering = false;
     }
@@ -115,15 +148,28 @@ public class ArtistScript : MonoBehaviour
     {
         float timer = 0f;
 
-        artistRenderer.material = plantFadeOut;
+        stemRenderer.material = plantFadeOut;
+        leave01.material = plantFadeOut;
+        leave02.material = plantFadeOut;
+        leave03.material = plantFadeOut;
+        leave04.material = plantFadeOut;
+
         potRenderer.material = potFadeOut;
-        Material tempPlantMat = artistRenderer.material;
+
+        Material tempPlantMat = stemRenderer.material;
         Material tempPotMat = potRenderer.material;
+
         dustPS.Play();
+
         while (timer <= fadeOutTime)
         {
             timer += Time.deltaTime;
-            artistRenderer.material.color = Color.Lerp(tempPlantMat.color, invisible.color, (timer / fadeOutTime));
+            Color tempColor = Color.Lerp(tempPlantMat.color, invisible.color, (timer / fadeOutTime));
+            stemRenderer.material.color = tempColor;
+            leave01.material.color = tempColor;
+            leave02.material.color = tempColor;
+            leave03.material.color = tempColor;
+            leave04.material.color = tempColor;
             potRenderer.material.color = Color.Lerp(tempPotMat.color, invisible.color, (timer / fadeOutTime));
 
             yield return new WaitForSeconds(Time.deltaTime);
