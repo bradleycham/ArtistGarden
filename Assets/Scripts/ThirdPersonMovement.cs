@@ -18,6 +18,10 @@ public class ThirdPersonMovement : MonoBehaviour
 
     Vector3 gravity = Vector3.zero;
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     // Update is called once per frame
     void Update()
     {
