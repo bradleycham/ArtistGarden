@@ -8,15 +8,35 @@ public class ArtistScript : MonoBehaviour
     public Object art;
     public Transform artSpawn;
 
-    public float HydrationMeter = 30f; 
-    public float HydrationMeterMax = 30f; 
+    // HYDRATION
+    public float hydrationMeter = 30f; 
+    public float hydrationMeterMax = 30f; 
     public float dehydrationPerSecond;
-    public float hydrationPerSecond = 5;
+    public float hydrationPerSecond = 5f;
     public bool watering = false;
-
     public float fadeOutTime = 2f;
-    public float BurnoutMeter;
-    public float SanityMeter;
+
+    // ART PROGRESS BAR
+    public GameObject progressBar;
+    public ProgressBar bar;
+    public float barProgress;
+    public float barMax = 100f;
+    float progPerSecond = 5f;
+    float progPerSecStart;
+
+    // BURNOUT
+    public float burnoutMeterMax = 30f;
+    public float burnoutMeter = 0f;
+    public float burnoutPerSecond = 3f;
+    public float wateringRelief = 2f;
+    public bool burning;
+    public ParticleSystem burningVFX;
+
+    public GameObject burnoutBar;
+    public ProgressBar bBar;
+    float burnoutProductivity = 5f;
+
+    public float sanityMeter;
 
     public Renderer stemRenderer;
     public Renderer leave01;
@@ -43,43 +63,68 @@ public class ArtistScript : MonoBehaviour
     public Material potFadeOut;
     public Material invisible;
 
-    public GameObject progressBar;
-    public ProgressBar bar;
-    public float barProgress;
-    public float barMax = 100f;
-    float progPerSecond = 5f;
+    
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("ThirdPersonPlayer").transform;
 
-        progPerSecond = Random.Range(3f, 5f);
-        HydrationMeterMax = HydrationMeter;
+        progPerSecStart = progPerSecond;
+        //progPerSecond = Random.Range(3f, 5f);
+        hydrationMeterMax = hydrationMeter;
         dehydrationPerSecond = Random.Range(0.5f, 1.0f);
 
         //StartCoroutine(ChangeEngineColour());
     }
+    
+    // Update is called once per frame
+    void Update()
+    {
+        ManageBurnout();
+        ManageHydration(); // sets watering to false;
+        ManageProgress();
+    }
+    
+    // ART PROGRESS BAR
+    void ManageProgress()
+    {
+        if (!dead)
+        {
+            barProgress += Time.deltaTime * progPerSecond;
+            if (barProgress >= barMax)
+            {
+                barProgress = 0f;
+                GameObject newArt = (GameObject)Instantiate(art, artSpawn.position, artSpawn.rotation);
+                Vector3 dir = player.position - transform.position;
+                dir = dir.normalized;
+                newArt.GetComponent<Rigidbody>().AddForce(dir * 100f);
+            }
+            bar.UpdateProgress(barProgress / barMax);
+        }
+    }
 
+    // HYDRATION
     void ManageHydration()
     {
-        if (HydrationMeter > HydrationMeterMax && !dead)
-        { 
-            HydrationMeter = HydrationMeterMax; 
+        if (hydrationMeter > hydrationMeterMax && !dead)
+        {
+            hydrationMeter = hydrationMeterMax;
         }
         if (!watering && !dead)
         {
-            HydrationMeter -= dehydrationPerSecond * Time.deltaTime;
+            hydrationMeter -= dehydrationPerSecond * Time.deltaTime;
         }
 
-        if (HydrationMeter <= 0f && !dead)
+        if (hydrationMeter <= 0f && !dead) // become dead
         {
             dead = true;
             StartCoroutine(FadeOutOfExistance());
             Destroy(progressBar);
+            Destroy(burnoutBar);
         }
-        else if(!dead)
+        else if (!dead) // if not dead
         {
-            float timeThing = 1f - (HydrationMeter / HydrationMeterMax);
+            float timeThing = 1f - (hydrationMeter / hydrationMeterMax);
             Color wiltColor = Color.Lerp(greenArtist.color, brownArtist.color, timeThing);
             stemRenderer.material.color = wiltColor;
             leave01.material.color = wiltColor;
@@ -101,38 +146,47 @@ public class ArtistScript : MonoBehaviour
 
         watering = false;
     }
-    // Update is called once per frame
-    void Update()
-    {
-        ManageHydration();
-        ManageProgress();
-    }
 
-    void ManageProgress()
+    // BURNOUT
+    void ManageBurnout()
     {
-        if (!dead)
+        if (!dead && !watering)
         {
-            barProgress += Time.deltaTime * progPerSecond;
-            if (barProgress >= barMax)
+            burnoutMeter += Time.deltaTime * burnoutPerSecond;
+            if (burnoutMeter > burnoutMeterMax)
             {
-                barProgress = 0f;
-                GameObject newArt = (GameObject)Instantiate(art, artSpawn.position, artSpawn.rotation);
-                Vector3 dir = player.position - transform.position;
-                dir = dir.normalized;
-                newArt.GetComponent<Rigidbody>().AddForce(dir * 100f);
+                burnoutMeter = burnoutMeterMax;
+                if(!burning)
+                {
+                    // BURNINATING
+                    // start fire vfx
+                    // stop dehdration
+                    // start burning coroutine
+                    burningVFX.Play();
+                }
             }
-            bar.UpdateProgress(barProgress / barMax);
+            bBar.UpdateProgress(burnoutMeter / burnoutMeterMax);
         }
-    }
+        else if(watering)
+        {
+            burnoutMeter -= wateringRelief * Time.deltaTime;
+            if (burnoutMeter < 0f)
+                burnoutMeter = 0f;
+        }
 
+        
+
+        progPerSecond = progPerSecStart + ((burnoutMeter / burnoutMeterMax) * burnoutProductivity);
+
+    }
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Water") && HydrationMeter <= HydrationMeterMax)
+        if (other.CompareTag("Water") && hydrationMeter <= hydrationMeterMax)
         {
             //Debug.Log("Watering");
 
             watering = true;
-            HydrationMeter += hydrationPerSecond * Time.deltaTime;
+            hydrationMeter += hydrationPerSecond * Time.deltaTime;
         }
     }
     private void OnTriggerExit(Collider other)

@@ -21,7 +21,6 @@ public class ProgressBar : MonoBehaviour
     private void Update()
     {
         transform.LookAt(cam);
-        
     }
 
     public void UpdateProgress(float progress)
